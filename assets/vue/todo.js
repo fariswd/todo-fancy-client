@@ -20,8 +20,8 @@ Vue.component('my-todo', {
         </div>
       </div>
       <div class="card-footer">
-        <a href="#" class="badge badge-pill badge-warning" >Edit Todo</a>
-        <a href="#" class="badge badge-pill badge-danger" >Delete Todo</a>
+        <button class="badge badge-pill badge-warning" @click="edit(t._id)">Edit Todo</button>
+        <button class="badge badge-pill badge-danger" @click="remove(t._id)">Delete Todo</button>
       </div>
     </div>
   </div>
@@ -60,10 +60,31 @@ Vue.component('my-todo', {
       .catch((error)=>{
         console.log(error);
       });
+    },
+    remove: function(id){
+      axios.delete('http://localhost:3000/api/todo/'+id,{
+        'headers': {'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVhMTA1Mzg2NDExZjNlN2Q4ZGMxNjNhYiIsImVtYWlsIjoicmFkZW5mYXJpc0BnbWFpbC5jb20iLCJpYXQiOjE1MTEwMTkzOTh9._3mopJCs703DWdPGq_kxYuW2Qd98r4zB6XJBLYFaJoY'}
+      })
+      .then((response)=>{
+        var pos = this.todos.findIndex(function(e){
+          return e._id == response.data.before._id;
+        })
+        this.todos.splice(pos,1)
+      })
+      .catch((error)=>{
+        console.log(error);
+      });
+    },
+    edit: function(id){
+      var pos = this.todos.findIndex(function(e){
+        return e._id == id;
+      })
+      this.$emit('edit-todo', {
+        todo: this.todos[pos]
+      })
     }
   },
   created(){
-    console.log('---------')
     // this.getTodo()
   }
 })
