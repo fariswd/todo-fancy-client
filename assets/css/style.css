@@ -1,0 +1,37 @@
+.tagline {
+  margin-top: 30%;
+  font-weight: 900;
+  font-size: 30px;
+  text-align: right;
+}
+
+.mid_join {
+  margin-top: 50%;
+}
+
+#loginButton {
+  background-color: #3B7CFF;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 18px;
+  color: #fff;
+  font-size: 16px;
+}
+
+.my_todo, .my_tagged_todo {
+  margin-top: 20px;
+}
+
+.main {
+  padding: 20px;
+}
+
+.right {
+  display: inline;
+  text-align: right;
+}
+
+.left {
+  display: inline;
+  text-align: left;
+}
