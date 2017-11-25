@@ -29,7 +29,7 @@ Vue.component('my-todo', {
   props: ['todos','username'],
   data: function () {
     return {
-      
+      name: ''
     }
   },
   methods: {
@@ -63,6 +63,7 @@ Vue.component('my-todo', {
     }
   },
   created(){
+    console.log('---------')
     // this.getTodo()
   }
 })

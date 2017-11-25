@@ -29,6 +29,16 @@
         </div>
       </nav>
       
+      <div v-if="status == 'success'" class="alert alert-dismissible alert-success">
+        <button type="button" class="close" data-dismiss="alert" @click="clearStatus">&times;</button>
+        <strong>Well done!</strong> You successfully add todo.
+      </div>
+      
+      <div v-if="status == 'fails'" class="alert alert-dismissible alert-danger">
+        <button type="button" class="close" data-dismiss="alert" @click="clearStatus">&times;</button>
+        <strong>Aww Snap!</strong> Unsuccessful add todo.
+      </div>
+      
       <!-- modal -->
       <div class="modal" id="addTodo">
         <div class="modal-dialog" role="document">
@@ -44,18 +54,18 @@
                 <fieldset>
                   <div class="form-group">
                     <label for="todo">Todo</label>
-                    <input class="form-control" id="todo" aria-describedby="todoHelp" placeholder="Enter todo" type="text">
+                    <input v-model='newtodo' class="form-control" id="todo" aria-describedby="todoHelp" placeholder="Enter todo" type="text">
                   </div>
                   <div class="form-group">
                     <label for="exampleTextarea">Tag</label>
                     <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
-                    <small id="todoHelp" class="form-text text-muted">Tag your comrades separate by coma</small>
+                    <small id="todoHelp" class="form-text text-muted">Tag your comrades email. Separate by coma</small>
                   </div>
                 </fieldset>
               </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary">Save changes</button>
+              <button type="button" class="btn btn-primary" @click="addTodo" >Add Todo</button>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
           </div>
@@ -125,7 +135,9 @@
       data: {
           message: '',
           todos: [],
-          username: ''
+          username: '',
+          newtodo: '',
+          status: ''
       },
       methods: {
         getTodo: function(){
@@ -140,6 +152,26 @@
           .catch((error)=>{
             console.log(error);
           });
+        },
+        addTodo: function(){
+          axios.post('http://localhost:3000/api/todo',{
+            todo: this.newtodo
+          },{
+            'headers': {'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVhMTA1Mzg2NDExZjNlN2Q4ZGMxNjNhYiIsImVtYWlsIjoicmFkZW5mYXJpc0BnbWFpbC5jb20iLCJpYXQiOjE1MTEwMTkzOTh9._3mopJCs703DWdPGq_kxYuW2Qd98r4zB6XJBLYFaJoY'}
+          })
+          .then(response=>{
+            this.todos.push(response.data.inserted)
+            this.newtodo = ''
+            this.status = 'success'
+            $('#addTodo').modal('hide');
+          })
+          .catch(err=>{
+            console.log(err)
+            this.status = 'fails'
+          })
+        },
+        clearStatus: function(){
+          this.status = ''
         }
       },
       created(){
