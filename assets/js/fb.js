@@ -1,15 +1,15 @@
+// (checktoken())
+
 // This is called with the results from from FB.getLoginStatus().
 function statusChangeCallback(response) {
   console.log('statusChangeCallback');
   console.log(response);
   if (response.status === 'connected') {
     // Logged into your app and Facebook.
-    getDataUser();
-    getTimeline();
+    
   } else {
     // The person is not logged into your app or we are unable to tell.
-    document.getElementById('status').innerHTML = 'Please log ' +
-      'into this app.';
+    console.log('belum login')
   }
 }
 
@@ -24,7 +24,7 @@ function checkLoginState() {
 
 window.fbAsyncInit = function() {
   FB.init({
-    appId      : '1291461150959766',
+    appId      : '451001571962385',
     cookie     : true,  // enable cookies to allow the server to access 
                         // the session
     xfbml      : true,  // parse social plugins on this page
@@ -36,7 +36,7 @@ window.fbAsyncInit = function() {
 };
 
 // Load the SDK asynchronously
-(function(d, s, id) {
+(function init(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) return;
   js = d.createElement(s); js.id = id;
@@ -47,20 +47,49 @@ window.fbAsyncInit = function() {
 function fbLogin(){
   FB.login(function(response){
     console.log(response)
-    localStorage.setItem('fb_access_token', response.authResponse.accessToken)
-  }, {scope : 'public_profile, email, publish_actions, user_posts'})
+    signinfb(response)
+  }, {scope : 'public_profile, email'})
   // getDataUser()
 }
 
-// function getDataUser(){
-//   var fb_access_token = localStorage.getItem('fb_access_token')
-//   axios.get('http://localhost:3000/api/fb', {
-//     headers: {
-//       fb_access_token: fb_access_token
-//     }
-//   }).then(response=>{
-//     console.log('data user', response);
-//   }).catch(err=>{
-//     console.log(err);
-//   })
+function signinfb(response){
+  axios.post('http://localhost:3000/api/signfb',[],{
+    'headers': {'fb_token': response.authResponse.accessToken}
+  })
+  .then(r=>{
+    console.log(r.data)
+    if(r.data.msg=='login success'){
+      localStorage.setItem('token', r.data.token)
+      window.location.replace("home.html");
+    } else {
+      console.log('something wrong')
+    }
+  })
+  .catch(err=>{
+    console.log(err)
+  })
+}
+
+// function checktoken(){
+//   var token = localStorage.getItem('token');
+//   if(token){
+//     //cek token if valid
+//     axios.get('http://localhost:3000/api/mytodo',{
+//       'headers': {'token': token}
+//     })
+//     .then((response)=>{
+//       if(response.status!=200){
+//         alert("please login");
+//         localStorage.removeItem('token');
+//       }else {
+//         window.location.replace("home.html");
+//       }
+//     })
+//     .catch((error)=>{
+//       console.log(error);
+//     });
+//   } else {
+//     //delete token
+//     localStorage.removeItem('token');
+//   }
 // }
