@@ -6,6 +6,7 @@ function statusChangeCallback(response) {
   console.log(response);
   if (response.status === 'connected') {
     // Logged into your app and Facebook.
+    checktoken()
     
   } else {
     // The person is not logged into your app or we are unable to tell.
@@ -70,26 +71,26 @@ function signinfb(response){
   })
 }
 
-// function checktoken(){
-//   var token = localStorage.getItem('token');
-//   if(token){
-//     //cek token if valid
-//     axios.get('http://localhost:3000/api/mytodo',{
-//       'headers': {'token': token}
-//     })
-//     .then((response)=>{
-//       if(response.status!=200){
-//         alert("please login");
-//         localStorage.removeItem('token');
-//       }else {
-//         window.location.replace("home.html");
-//       }
-//     })
-//     .catch((error)=>{
-//       console.log(error);
-//     });
-//   } else {
-//     //delete token
-//     localStorage.removeItem('token');
-//   }
-// }
+function checktoken(){
+  var token = localStorage.getItem('token');
+  if(token){
+    //cek token if valid
+    axios.get('http://localhost:3000/api/mytodo',{
+      'headers': {'token': token}
+    })
+    .then((response)=>{
+      if(response.status!=200){
+        alert("please login");
+        localStorage.removeItem('token');
+      }else {
+        window.location.replace("home.html");
+      }
+    })
+    .catch((error)=>{
+      console.log(error);
+    });
+  } else {
+    //delete token
+    localStorage.removeItem('token');
+  }
+}

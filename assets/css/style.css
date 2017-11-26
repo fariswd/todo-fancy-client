@@ -1,5 +1,13 @@
+body {
+  height: 100vh;
+  background-image: url("../img/background.jpg");
+  background-size:     cover;
+  background-attachment: fixed;
+  background-position: bottom center;
+}
+
 .tagline {
-  margin-top: 50%;
+  margin-top: 40vh;
   font-weight: 900;
   font-size: 30px;
   text-align: right;

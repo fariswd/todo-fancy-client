@@ -55,7 +55,7 @@
                   </div>
                   <div class="form-group">
                     <label for="tag">Tag</label>
-                    <textarea class="form-control" id="tag" rows="3"></textarea>
+                    <textarea v-model='newtag' class="form-control" id="tag" rows="3"></textarea>
                     <small id="todoHelp" class="form-text text-muted">Tag your comrades email. Separate by coma</small>
                   </div>
                 </fieldset>
@@ -113,7 +113,7 @@
             <a class="nav-link active" data-toggle="tab" href="#mytodo">My Todo</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#mytaggedtodo">My Tagged Todo</a>
+            <a class="nav-link" data-toggle="tab" href="#mytaggedtodo" @click="getTag">My Tagged Todo</a>
           </li>
         </ul>
         
@@ -122,7 +122,7 @@
           <div class="tab-pane fade active show" id="mytodo">
             <div class="row my_todo">
               <div class="col-md-12">
-                <my-todo :todos="todos" :username="username" @edit-todo="editHandler"/>
+                <my-todo :todos="todos" :username="username" :token="token" @edit-todo="editHandler"/>
                 
               </div>
             </div>
@@ -132,17 +132,7 @@
           <div class="tab-pane fade in" id="mytaggedtodo">
             <div class="row">
               <div class="col-md-12 my_tagged_todo">
-                <div class="container">
-                  <h2>My Tagged Todo</h2>
-                  <div class="card text-white bg-primary">
-                    <div class="card-body">
-                      <blockquote class="card-blockquote">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                        <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer>
-                      </blockquote>
-                    </div>
-                  </div>
-                </div>
+                <my-tag :todos="mytag" :token="token" />
               </div>
             </div>
           </div> <!-- end tagged todo -->
@@ -159,6 +149,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src="assets/vue/todo.js" charset="utf-8"></script>
+    <script src="assets/vue/tag.js" charset="utf-8"></script>
     <!-- <script src="assets/js/moment.js" charset="utf-8"></script> -->
     <!-- vue instance -->
     <script>
@@ -170,6 +161,9 @@
           todos: [],
           username: '',
           newtodo: '',
+          newtag: '',
+          arrtag: [],
+          mytag: [],
           status: '',
           todoEdit: ''
       },
@@ -191,15 +185,35 @@
             
           });
         },
+        getTag: function(){
+          axios.get('http://localhost:3000/api/mytagged',{
+            'headers': {'token': this.token}
+          })
+          .then((response)=>{
+            console.log(response)
+            this.mytag = response.data.todos
+          })
+          .catch((error)=>{
+            console.log(error);
+            alert("Please login");
+            localStorage.removeItem('token');
+            window.location.replace("index.html");
+            
+          });
+        },
         addTodo: function(){
+          var tagged = this.tagHandler();
           axios.post('http://localhost:3000/api/todo',{
-            todo: this.newtodo
+            todo: this.newtodo,
+            tag: this.arrtag
           },{
             'headers': {'token': this.token}
           })
           .then(response=>{
-            this.todos.push(response.data.inserted)
+            this.todos.unshift(response.data.inserted)
             this.newtodo = ''
+            this.newtag = ''
+            this.arrtag = []
             this.status = 'success'
             $('#addTodo').modal('hide')
             // $('.navbar').collapse('hide')
@@ -208,6 +222,11 @@
             console.log(err)
             this.status = 'fails'
           })
+        },
+        tagHandler: function(){
+          var tags = this.newtag.replace(/\s/g, '');
+          this.arrtag = tags.split(',')
+          return this.arrtag
         },
         editHandler: function(payload){
           this.todoEdit = payload.todo

@@ -11,17 +11,19 @@
     <link rel="stylesheet" href="assets/css/style.css">
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="#">Todo-Progress</a>
 
-    </nav>
+    </nav> -->
     
     <div class="container">
       <div class="row">
         <div class="col-md-12">
           <div class="tagline">
-            <h1>Organize your work</h1>
-            <h3>your teamnates, your comrades</h3>
+            <h1>Organize is</h1>
+            <h3 class="typewrite" data-period="2000" data-type='[ "your works", "your teamnates", "your comrades", "your friends", "yourself" ]'>
+                <span class="wrap"></span>
+            </h3>
             <button type="button" class="btn btn-primary" id="loginButton" onclick="fbLogin()">LOG IN WITH FACEBOOK</button>
           </div>
         </div>
@@ -70,5 +72,6 @@
 
     <!-- myjs -->
     <script src="assets/js/fb.js" charset="utf-8"></script>
+    <script src="assets/js/animate.js" charset="utf-8"></script>
   </body>
 </html>

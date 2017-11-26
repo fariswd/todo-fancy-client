@@ -1,10 +1,10 @@
-Vue.component('my-todo', {
+Vue.component('my-tag', {
   template: `
   <div class="container">
     <h2>My Todo</h2>
     <div class="card" v-for="(t, index) in todos">
       <div class="card-header left">
-        <p class="card-text left">{{ username }}</p>
+        <p class="card-text left">From: {{ t.from }}</p>
       </div>
       <div class="card-body">
         <div class="row">
@@ -20,13 +20,12 @@ Vue.component('my-todo', {
         </div>
       </div>
       <div class="card-footer">
-        <button class="badge badge-pill badge-warning" @click="edit(t._id)">Edit Todo</button>
         <button class="badge badge-pill badge-danger" @click="remove(t._id)">Delete Todo</button>
       </div>
     </div>
   </div>
   `,
-  props: ['todos','username','token'],
+  props: ['todos','token'],
   data: function () {
     return {
       name: ''
@@ -34,7 +33,7 @@ Vue.component('my-todo', {
   },
   methods: {
     done: function(id){
-      axios.put('http://localhost:3000/api/done/'+id,[],{
+      axios.put('http://localhost:3000/api/done/tag/'+id,[],{
         'headers': {'token': this.token}
       })
       .then((response)=>{
@@ -48,7 +47,7 @@ Vue.component('my-todo', {
       });
     },
     undone: function(id){
-      axios.put('http://localhost:3000/api/undone/'+id,[],{
+      axios.put('http://localhost:3000/api/undone/tag/'+id,[],{
         'headers': {'token': this.token}
       })
       .then((response)=>{
@@ -62,7 +61,7 @@ Vue.component('my-todo', {
       });
     },
     remove: function(id){
-      axios.delete('http://localhost:3000/api/todo/'+id,{
+      axios.delete('http://localhost:3000/api/todo/tag/'+id,{
         'headers': {'token': this.token}
       })
       .then((response)=>{
@@ -74,14 +73,6 @@ Vue.component('my-todo', {
       .catch((error)=>{
         console.log(error);
       });
-    },
-    edit: function(id){
-      var pos = this.todos.findIndex(function(e){
-        return e._id == id;
-      })
-      this.$emit('edit-todo', {
-        todo: this.todos[pos]
-      })
     }
   },
   created(){
