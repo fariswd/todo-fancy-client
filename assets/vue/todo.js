@@ -79,6 +79,7 @@ Vue.component('my-todo', {
       var pos = this.todos.findIndex(function(e){
         return e._id == id;
       })
+      console.log(this.todos[pos].tag)
       this.$emit('edit-todo', {
         todo: this.todos[pos]
       })

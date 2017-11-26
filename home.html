@@ -88,7 +88,7 @@
                   </div>
                   <div class="form-group">
                     <label for="tag">Tag</label>
-                    <textarea class="form-control" id="tag" rows="3"></textarea>
+                    <textarea v-model='todoTagString' class="form-control" id="tag" rows="3"></textarea>
                     <small id="todoHelp" class="form-text text-muted">Tag your comrades email. Separate by coma</small>
                   </div>
                 </fieldset>
@@ -150,129 +150,10 @@
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src="assets/vue/todo.js" charset="utf-8"></script>
     <script src="assets/vue/tag.js" charset="utf-8"></script>
+    <script src="assets/vue/home.js" charset="utf-8"></script>
     <!-- <script src="assets/js/moment.js" charset="utf-8"></script> -->
     <!-- vue instance -->
     <script>
-    new Vue({
-      el: '#app',
-      data: {
-          token: '',
-          message: '',
-          todos: [],
-          username: '',
-          newtodo: '',
-          newtag: '',
-          arrtag: [],
-          mytag: [],
-          status: '',
-          todoEdit: ''
-      },
-      methods: {
-        getTodo: function(){
-          axios.get('http://localhost:3000/api/mytodo',{
-            'headers': {'token': this.token}
-          })
-          .then((response)=>{
-            console.log(response)
-            this.username = response.data.user.email
-            this.todos = response.data.todos
-          })
-          .catch((error)=>{
-            console.log(error);
-            alert("Please login");
-            localStorage.removeItem('token');
-            window.location.replace("index.html");
-            
-          });
-        },
-        getTag: function(){
-          axios.get('http://localhost:3000/api/mytagged',{
-            'headers': {'token': this.token}
-          })
-          .then((response)=>{
-            console.log(response)
-            this.mytag = response.data.todos
-          })
-          .catch((error)=>{
-            console.log(error);
-            alert("Please login");
-            localStorage.removeItem('token');
-            window.location.replace("index.html");
-            
-          });
-        },
-        addTodo: function(){
-          var tagged = this.tagHandler();
-          axios.post('http://localhost:3000/api/todo',{
-            todo: this.newtodo,
-            tag: this.arrtag
-          },{
-            'headers': {'token': this.token}
-          })
-          .then(response=>{
-            this.todos.unshift(response.data.inserted)
-            this.newtodo = ''
-            this.newtag = ''
-            this.arrtag = []
-            this.status = 'success'
-            $('#addTodo').modal('hide')
-            // $('.navbar').collapse('hide')
-          })
-          .catch(err=>{
-            console.log(err)
-            this.status = 'fails'
-          })
-        },
-        tagHandler: function(){
-          var tags = this.newtag.replace(/\s/g, '');
-          this.arrtag = tags.split(',')
-          return this.arrtag
-        },
-        editHandler: function(payload){
-          this.todoEdit = payload.todo
-          $('#editTodo').modal('show')
-        },
-        editTodo: function(){
-          axios.put('http://localhost:3000/api/todo/'+this.todoEdit._id,{
-            todo: this.todoEdit.todo
-          },{
-            'headers': {'token': this.token}
-          })
-          .then(response=>{
-            this.editTodo = ''
-            this.status = 'success'
-            $('#editTodo').modal('hide')
-            // $('.navbar').collapse('hide')
-          })
-          .catch(err=>{
-            console.log(err)
-            this.status = 'fails'
-          })
-        },
-        clearStatus: function(){
-          this.status = ''
-        },
-        gettoken: function(){
-          let token = localStorage.getItem('token')
-          if(token){
-            this.token = token
-          } else {
-             alert("Please login");
-             localStorage.removeItem('token');
-             window.location.replace("index.html");
-          }
-        },
-        logout: function(){
-          localStorage.removeItem('token');
-          window.location.replace("index.html");
-        }
-      },
-      created(){
-        this.gettoken()
-        this.getTodo()
-      }
-    })
-    Vue.config.devtools = true;
     </script>
   </body>
 </html>
