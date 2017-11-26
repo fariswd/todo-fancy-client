@@ -16,11 +16,10 @@ new Vue({
   },
   methods: {
     getTodo: function(){
-      axios.get('http://localhost:3000/api/mytodo',{
+      axios.get('http://vps.masfaris.com:3001/api/mytodo',{
         'headers': {'token': this.token}
       })
       .then((response)=>{
-        console.log(response)
         this.username = response.data.user.email
         this.todos = response.data.todos
       })
@@ -33,7 +32,7 @@ new Vue({
       });
     },
     getTag: function(){
-      axios.get('http://localhost:3000/api/mytagged',{
+      axios.get('http://vps.masfaris.com:3001/api/mytagged',{
         'headers': {'token': this.token}
       })
       .then((response)=>{
@@ -50,7 +49,7 @@ new Vue({
     },
     addTodo: function(){
       var tagged = this.tagHandler();
-      axios.post('http://localhost:3000/api/todo',{
+      axios.post('http://vps.masfaris.com:3001/api/todo',{
         todo: this.newtodo,
         tag: this.arrtag
       },{
@@ -77,7 +76,7 @@ new Vue({
     },
     tagReverse: function(tag, cb){
       //send array of id
-      axios.post('http://localhost:3000/api/user/',{
+      axios.post('http://vps.masfaris.com:3001/api/user/',{
         user: tag
       })
       .then(result=>{
@@ -104,7 +103,7 @@ new Vue({
     editTodo: function(){
       var tags = this.todoTagString.replace(/\s/g, '');
       this.arrtag = tags.split(',')
-      axios.put('http://localhost:3000/api/todo/'+this.todoEdit._id,{
+      axios.put('http://vps.masfaris.com:3001/api/todo/'+this.todoEdit._id,{
         todo: this.todoEdit.todo,
         tag: this.arrtag
       },{

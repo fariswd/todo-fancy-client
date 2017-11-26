@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Todo Progress : Home</title>
+    <title>To Do Fancy: Home</title>
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -41,7 +41,7 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Add Todo</h5>
+              <h5 class="modal-title">Add To Do</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -74,7 +74,7 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Edit Todo</h5>
+              <h5 class="modal-title">Edit To do</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -83,7 +83,7 @@
               <form>
                 <fieldset>
                   <div class="form-group">
-                    <label for="todo">Todo</label>
+                    <label for="todo">To do</label>
                     <input v-model='todoEdit.todo' class="form-control" id="todo" aria-describedby="todoHelp" placeholder="Enter todo" type="text" :value='todoEdit'>
                   </div>
                   <div class="form-group">
@@ -95,7 +95,7 @@
               </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" @click="editTodo" >Edit Todo</button>
+              <button type="button" class="btn btn-primary" @click="editTodo" >Edit To do</button>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
           </div>
@@ -110,10 +110,10 @@
         <!-- nav tag -->
         <ul class="nav nav-tabs">
           <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#mytodo">My Todo</a>
+            <a class="nav-link active" data-toggle="tab" href="#mytodo">To Do</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#mytaggedtodo" @click="getTag">My Tagged Todo</a>
+            <a class="nav-link" data-toggle="tab" href="#mytaggedtodo" @click="getTag">Tagged To Do</a>
           </li>
         </ul>
         
@@ -148,12 +148,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <!-- vue instance -->
     <script src="assets/vue/todo.js" charset="utf-8"></script>
     <script src="assets/vue/tag.js" charset="utf-8"></script>
     <script src="assets/vue/home.js" charset="utf-8"></script>
     <!-- <script src="assets/js/moment.js" charset="utf-8"></script> -->
-    <!-- vue instance -->
-    <script>
-    </script>
   </body>
 </html>

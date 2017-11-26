@@ -1,7 +1,7 @@
 Vue.component('my-tag', {
   template: `
   <div class="container">
-    <h2>My Todo</h2>
+    <h2>Tagged TODO</h2>
     <div class="card" v-for="(t, index) in todos">
       <div class="card-header left">
         <p class="card-text left">From: {{ t.from }}</p>
@@ -33,7 +33,7 @@ Vue.component('my-tag', {
   },
   methods: {
     done: function(id){
-      axios.put('http://localhost:3000/api/done/tag/'+id,[],{
+      axios.put('http://vps.masfaris.com:3001/api/done/tag/'+id,[],{
         'headers': {'token': this.token}
       })
       .then((response)=>{
@@ -47,7 +47,7 @@ Vue.component('my-tag', {
       });
     },
     undone: function(id){
-      axios.put('http://localhost:3000/api/undone/tag/'+id,[],{
+      axios.put('http://vps.masfaris.com:3001/api/undone/tag/'+id,[],{
         'headers': {'token': this.token}
       })
       .then((response)=>{
@@ -61,7 +61,7 @@ Vue.component('my-tag', {
       });
     },
     remove: function(id){
-      axios.delete('http://localhost:3000/api/todo/tag/'+id,{
+      axios.delete('http://vps.masfaris.com:3001/api/todo/tag/'+id,{
         'headers': {'token': this.token}
       })
       .then((response)=>{

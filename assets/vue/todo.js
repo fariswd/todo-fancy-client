@@ -1,7 +1,7 @@
 Vue.component('my-todo', {
   template: `
   <div class="container">
-    <h2>My Todo</h2>
+    <h2>TODO</h2>
     <div class="card" v-for="(t, index) in todos">
       <div class="card-header left">
         <p class="card-text left">{{ username }}</p>
@@ -34,7 +34,7 @@ Vue.component('my-todo', {
   },
   methods: {
     done: function(id){
-      axios.put('http://localhost:3000/api/done/'+id,[],{
+      axios.put('http://vps.masfaris.com:3001/api/done/'+id,[],{
         'headers': {'token': this.token}
       })
       .then((response)=>{
@@ -48,7 +48,7 @@ Vue.component('my-todo', {
       });
     },
     undone: function(id){
-      axios.put('http://localhost:3000/api/undone/'+id,[],{
+      axios.put('http://vps.masfaris.com:3001/api/undone/'+id,[],{
         'headers': {'token': this.token}
       })
       .then((response)=>{
@@ -62,7 +62,7 @@ Vue.component('my-todo', {
       });
     },
     remove: function(id){
-      axios.delete('http://localhost:3000/api/todo/'+id,{
+      axios.delete('http://vps.masfaris.com:3001/api/todo/'+id,{
         'headers': {'token': this.token}
       })
       .then((response)=>{

@@ -54,7 +54,7 @@ function fbLogin(){
 }
 
 function signinfb(response){
-  axios.post('http://localhost:3000/api/signfb',[],{
+  axios.post('http://vps.masfaris.com:3001/api/signfb',[],{
     'headers': {'fb_token': response.authResponse.accessToken}
   })
   .then(r=>{
@@ -75,7 +75,7 @@ function checktoken(){
   var token = localStorage.getItem('token');
   if(token){
     //cek token if valid
-    axios.get('http://localhost:3000/api/mytodo',{
+    axios.get('http://vps.masfaris.com:3001/api/mytodo',{
       'headers': {'token': token}
     })
     .then((response)=>{
